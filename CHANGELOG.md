@@ -1,5 +1,17 @@
 # CHANGELOG
 
+## Unreleased
+
+## 0.4.1
+
+* Fix `Grocer::NotificationReader`, ensuring it sanitizes incoming `aps`
+  payload keys before building a new `Grocer::Notification`.
+
+## 0.4.0
+
+* Add support for `content-available` for background fetches (iOS 7) for all
+  types of Notifications ([Zack Parker](https://github.com/somezack))
+
 ## 0.3.4
 
 * Add `Grocer::MobileDeviceManagementNotification` to send PushMagic tokens.
