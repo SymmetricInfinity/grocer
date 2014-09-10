@@ -59,7 +59,7 @@ describe Grocer::Connection do
 
   it 'raises ErrorResponse when there is a response on the socket' do
     ssl.stubs(:read_nonblock).returns("\b\x00\x00\x00\x00\x00")
-    -> {subject.write('abc123')}.should raise_error(Grocer::ErrorResponse)
+    expect {subject.write('abc123')}.to raise_error(Grocer::ErrorResponse)
   end
 
   context 'an open SSLConnection' do
