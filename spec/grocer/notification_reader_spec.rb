@@ -68,7 +68,17 @@ describe Grocer::NotificationReader do
       io.rewind
 
       notification = subject.first
-      expect(notification.content_available).to be_true
+      expect(notification.content_available).to be_truthy
+      expect(notification.content_available?).to be true
+    end
+
+    it 'reports content not available when non is provided' do
+      io.write(Grocer::Notification.new(alert: 'Foo').to_bytes)
+      io.rewind
+
+      notification = subject.first
+      expect(notification.content_available).to be_falsey
+      expect(notification.content_available?).to be false
     end
   end
 end

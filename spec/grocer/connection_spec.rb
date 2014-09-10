@@ -30,7 +30,7 @@ describe Grocer::Connection do
 
   it 'requires a gateway' do
     connection_options.delete(:gateway)
-    -> { described_class.new(connection_options) }.should raise_error(Grocer::NoGatewayError)
+    expect { described_class.new(connection_options) }.to raise_error(Grocer::NoGatewayError)
   end
 
   it 'can be initialized with a gateway' do
@@ -39,7 +39,7 @@ describe Grocer::Connection do
 
   it 'requires a port' do
     connection_options.delete(:port)
-    -> { described_class.new(connection_options) }.should raise_error(Grocer::NoPortError)
+    expect { described_class.new(connection_options) }.to raise_error(Grocer::NoPortError)
   end
 
   it 'can be initialized with a port' do
@@ -48,13 +48,13 @@ describe Grocer::Connection do
 
   it 'can open the connection to the apple push notification service' do
     subject.connect
-    ssl.should have_received(:connect)
+    expect(ssl).to have_received(:connect)
   end
 
   it 'raises CertificateExpiredError for OpenSSL::SSL::SSLError with /certificate expired/i message' do
     ssl.stubs(:read_nonblock).raises(nonblock_exception)
     ssl.stubs(:write).raises(OpenSSL::SSL::SSLError.new('certificate expired'))
-    -> {subject.write('abc123')}.should raise_error(Grocer::CertificateExpiredError)
+    expect {subject.write('abc123')}.to raise_error(Grocer::CertificateExpiredError)
   end
 
   it 'raises ErrorResponse when there is a response on the socket' do
@@ -70,12 +70,12 @@ describe Grocer::Connection do
 
     it '#write delegates to open SSLConnection' do
       subject.write('Apples to Oranges')
-      ssl.should have_received(:write).with('Apples to Oranges')
+      expect(ssl).to have_received(:write).with('Apples to Oranges')
     end
 
     it '#read delegates to open SSLConnection' do
       subject.read(42, 'IO')
-      ssl.should have_received(:read).with(42, 'IO')
+      expect(ssl).to have_received(:read).with(42, 'IO')
     end
   end
 
@@ -87,8 +87,8 @@ describe Grocer::Connection do
     it '#write connects SSLConnection and delegates to it' do
       ssl.stubs(:read_nonblock).raises(nonblock_exception)
       subject.write('Apples to Oranges')
-      ssl.should have_received(:connect)
-      ssl.should have_received(:write).with('Apples to Oranges')
+      expect(ssl).to have_received(:connect)
+      expect(ssl).to have_received(:write).with('Apples to Oranges')
     end
 
     it '#write reconnects if end of file is reached' do
@@ -101,8 +101,8 @@ describe Grocer::Connection do
     it '#read connects SSLConnection delegates to open SSLConnection' do
       ssl.stubs(:read_nonblock).raises(nonblock_exception)
       subject.read(42, 'IO')
-      ssl.should have_received(:connect)
-      ssl.should have_received(:read).with(42, 'IO')
+      expect(ssl).to have_received(:connect)
+      expect(ssl).to have_received(:read).with(42, 'IO')
     end
   end
 end

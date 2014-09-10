@@ -1,8 +1,9 @@
 # Grocer
 
-[![Build Status](https://api.travis-ci.org/grocer/grocer.png?branch=master)](https://travis-ci.org/grocer/grocer)
-[![Dependency Status](https://gemnasium.com/grocer/grocer.png)](https://gemnasium.com/grocer/grocer)
-[![Code Climate](https://codeclimate.com/github/grocer/grocer.png)](https://codeclimate.com/github/grocer/grocer)
+[![Gem Version](http://img.shields.io/gem/v/grocer.svg)](https://rubygems.org/gems/grocer)
+[![Code Climate](http://img.shields.io/codeclimate/github/grocer/grocer.svg)](https://codeclimate.com/github/grocer/grocer)
+[![Build Status](https://img.shields.io/travis/grocer/grocer.svg)](https://travis-ci.org/grocer/grocer)
+[![Dependency Status](https://img.shields.io/gemnasium/grocer/grocer.svg)](https://gemnasium.com/grocer/grocer)
 
 **grocer** interfaces with the [Apple Push Notification
 Service](http://developer.apple.com/library/mac/#documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/ApplePushService/ApplePushService.html)
@@ -13,7 +14,7 @@ cleanest, most extensible, and friendliest.
 
 ## Requirements
 
-* Ruby/MRI 1.9.x, JRuby 1.7.x in 1.9 mode, Rubinius in 1.9 mode
+* Ruby/MRI 2.1, 2.0, 1.9.x, JRuby 1.7.x in 1.9 mode, Rubinius in 1.9 mode
 
 ## Installation
 
@@ -74,7 +75,7 @@ notification = Grocer::Notification.new(
   badge:             42,
   sound:             "siren.aiff",         # optional
   expiry:            Time.now + 60*60,     # optional; 0 is default, meaning the message is not stored
-  identifier:        1234,                 # optional
+  identifier:        1234,                 # optional; must be an integer
   content_available: true                  # optional; any truthy value will set 'content-available' to 1
 )
 
@@ -125,9 +126,10 @@ notification = Grocer::PassbookNotification.new(device_token: "...")
 
 #### Newsstand Notifications
 
-Grocer also supports the special Newsstand 'content-available' notification. `Grocer::NewsstandNotification` can be
-used for this. Like `Grocer::PassbookNotification`, it is a specialized kind of notification which does not require
-any payload. Likewise, anything you add to it will be ignored.
+Grocer also supports the special Newsstand 'content-available' notification.
+`Grocer::NewsstandNotification` can be used for this. Like
+`Grocer::PassbookNotification`, it is a specialized kind of notification which
+does not require any payload. Likewise, anything you add to it will be ignored.
 
 ```ruby
 notification = Grocer::NewsstandNotification.new(device_token: "...")
@@ -135,9 +137,11 @@ notification = Grocer::NewsstandNotification.new(device_token: "...")
 # {"aps": {"content-available":1}}
 ````
 
-#### Safari Push Notifications
+#### Safari Notifications
 
-Grocer can be used for [Safari Push Notifications](https://developer.apple.com/notifications/safari-push-notifications/) introduced in Mavericks.
+Grocer can be used for [Safari Push
+Notifications](https://developer.apple.com/notifications/safari-push-notifications/)
+introduced in Mavericks.
 
 ```ruby
 notification = Grocer::SafariNotification.new(
@@ -145,7 +149,7 @@ notification = Grocer::SafariNotification.new(
   title: 'Hello from Grocer', # required
   body: 'Hi',                 # required
   action: 'Read',             # optional; the label of the action button
-  url_args: ['arg1']          # required(array); values that are paired with the placeholders inside the urlFormatString.
+  url_args: ['arg1']          # required (array); values that are paired with the placeholders inside the urlFormatString.
                               # Apple's documention lists url-args as optional, but in testing it was found to be required
 )
 ```
